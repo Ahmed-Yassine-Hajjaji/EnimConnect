@@ -58,7 +58,7 @@ export default function RechercheStages() {
 
   return (
     <main className="min-h-screen">
-      <div className="sticky top-16 z-10 bg-surface/90 backdrop-blur-md border-b border-outline-variant px-10 py-5">
+      <div className="sticky top-16 z-10 bg-surface/90 backdrop-blur-md border-b border-outline-variant px-4 sm:px-6 lg:px-10 py-4 lg:py-5">
         <div className="max-w-5xl">
           <h1 className="font-headline font-bold text-2xl text-on-surface mb-4">
             Recherche de stages
@@ -121,7 +121,7 @@ export default function RechercheStages() {
         </div>
       </div>
 
-      <div className="px-10 py-6">
+      <div className="px-4 sm:px-6 lg:px-10 py-4 lg:py-6">
         {loading && (
           <div className="flex items-center justify-center py-20 text-on-surface-variant">
             <span className="material-symbols-outlined animate-spin mr-2">progress_activity</span>
@@ -149,10 +149,10 @@ export default function RechercheStages() {
                 <Link
                   key={annonce.id}
                   to={`/etudiant/offre/${annonce.id}`}
-                  className="block bg-surface-container-low rounded-2xl p-6 border border-outline-variant hover:border-primary/30 hover:shadow-md transition-all"
+                  className="block bg-surface-container-low rounded-2xl p-4 sm:p-6 border border-outline-variant hover:border-primary/30 hover:shadow-md transition-all"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                    <div className="flex gap-3 sm:gap-4">
                       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary flex-shrink-0 text-sm">
                         {(annonce.nom_entreprise ?? "?").slice(0, 2).toUpperCase()}
                       </div>
@@ -176,7 +176,7 @@ export default function RechercheStages() {
                         </p>
                       </div>
                     </div>
-                    <span className="text-xs text-on-surface-variant ml-4 flex-shrink-0">
+                    <span className="text-xs text-on-surface-variant sm:ml-4 flex-shrink-0">
                       {new Date(annonce.created_at).toLocaleDateString("fr-FR")}
                     </span>
                   </div>

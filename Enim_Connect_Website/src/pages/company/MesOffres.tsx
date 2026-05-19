@@ -40,10 +40,10 @@ function OffreModal({ annonce, onClose }: { annonce: Annonce; onClose: () => voi
   const vds = annonce.validations_dept ?? [];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
       <div
-        className="relative bg-surface rounded-3xl border border-outline-variant shadow-xl max-w-lg w-full max-h-[85vh] overflow-y-auto"
+        className="relative bg-surface rounded-t-3xl sm:rounded-3xl border border-outline-variant shadow-xl w-full sm:max-w-lg max-h-[92vh] sm:max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -203,13 +203,13 @@ export default function MesOffres() {
         <OffreModal annonce={selectedAnnonce} onClose={() => setSelectedAnnonce(null)} />
       )}
 
-      <div className="px-10 pt-8 pb-4">
-        <div className="flex items-center justify-between">
+      <div className="px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">Mes offres</h1>
+            <h1 className="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface mb-1">Mes offres</h1>
             <p className="text-on-surface-variant text-sm">Statut de validation par département</p>
           </div>
-          <Link to="/entreprise/publier-offre" className="btn-primary">
+          <Link to="/entreprise/publier-offre" className="btn-primary sm:w-auto w-full justify-center">
             <span className="material-symbols-outlined text-xl">add</span>
             Nouvelle offre
           </Link>
@@ -217,7 +217,7 @@ export default function MesOffres() {
       </div>
 
       {/* Stats */}
-      <div className="px-10 mb-6 grid grid-cols-4 gap-4">
+      <div className="px-4 sm:px-6 lg:px-10 mb-6 grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4">
         {[
           { label: "Total", value: stats.total, cls: "bg-gradient-to-br from-primary to-secondary text-white", i: 0 },
           { label: "En attente", value: stats.en_attente, cls: "bg-surface-container-low border border-outline-variant", i: 1 },
@@ -234,8 +234,8 @@ export default function MesOffres() {
       </div>
 
       {/* Filter */}
-      <div className="px-10 mb-4">
-        <div className="flex bg-surface-container rounded-xl p-1 w-fit gap-1">
+      <div className="px-4 sm:px-6 lg:px-10 mb-4">
+        <div className="flex bg-surface-container rounded-xl p-1 w-full sm:w-fit gap-1 overflow-x-auto">
           {(["toutes", "en_attente", "validee", "rejetee"] as Filter[]).map((f) => (
             <button key={f} onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -249,7 +249,7 @@ export default function MesOffres() {
       </div>
 
       {/* List */}
-      <div className="px-10 pb-10 flex-1">
+      <div className="px-4 sm:px-6 lg:px-10 pb-10 flex-1">
         {loading ? (
           <div className="flex items-center justify-center py-16">
             <span className="material-symbols-outlined animate-spin text-3xl text-on-surface-variant">progress_activity</span>
@@ -264,7 +264,7 @@ export default function MesOffres() {
             </Link>
           </div>
         ) : (
-          <div className="space-y-5 max-w-4xl">
+          <div className="space-y-4 max-w-4xl">
             {filtered.map((a) => {
               const vds = a.validations_dept ?? [];
               const nbValides = vds.filter((v) => v.statut === "validee").length;
@@ -275,7 +275,7 @@ export default function MesOffres() {
                 <button
                   key={a.id}
                   onClick={() => setSelectedAnnonce(a)}
-                  className="w-full text-left bg-surface-container-low rounded-2xl border border-outline-variant p-6 hover:shadow-md hover:border-primary/30 transition-all cursor-pointer"
+                  className="w-full text-left bg-surface-container-low rounded-2xl border border-outline-variant p-4 sm:p-6 hover:shadow-md hover:border-primary/30 transition-all cursor-pointer"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between gap-4 mb-4">
@@ -301,7 +301,7 @@ export default function MesOffres() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center gap-1.5 flex-shrink-0 flex-wrap justify-end">
                       {nbValides > 0 && (
                         <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-green-50 text-green-600 border border-green-200">
                           {nbValides} validé{nbValides > 1 ? "s" : ""}
@@ -323,7 +323,7 @@ export default function MesOffres() {
 
                   {/* Per-department status grid */}
                   {vds.length > 0 ? (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {vds.map((v) => <DeptValidationBadge key={v.departement} v={v} />)}
                     </div>
                   ) : (

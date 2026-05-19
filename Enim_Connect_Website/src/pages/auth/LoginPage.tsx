@@ -72,7 +72,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Panel */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-surface">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 bg-surface">
         <div className="w-full max-w-md">
           <div className="flex items-center gap-3 mb-8">
             <img

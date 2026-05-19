@@ -25,9 +25,9 @@ export default function DashboardEtudiant() {
   const topAnnonces = annonces.slice(0, 4);
 
   return (
-    <main className="min-h-screen pb-12 px-10 pt-8">
+    <main className="min-h-screen pb-12 px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 lg:mb-8">
         <div>
           <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">
             Bienvenue, {loading ? '…' : prenom} !
@@ -49,7 +49,7 @@ export default function DashboardEtudiant() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-5 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-5 mb-6 lg:mb-8">
         <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-6 text-white">
           <span className="material-symbols-outlined text-3xl text-white/80 mb-3 block" style={{ fontVariationSettings: "'FILL' 1" }}>assignment</span>
           <div className="font-headline font-extrabold text-4xl mb-1">{loading ? '—' : candidatures.length}</div>
@@ -71,9 +71,9 @@ export default function DashboardEtudiant() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Offres recommandées */}
-        <div className="col-span-2 space-y-4">
+        <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
@@ -95,11 +95,11 @@ export default function DashboardEtudiant() {
               <p className="text-sm text-on-surface-variant">Les offres validées apparaîtront ici, triées par IA selon votre profil.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {topAnnonces.map((a, i) => (
                 <Link key={a.id} to={`/etudiant/offre/${a.id}`}
                   className={`rounded-2xl p-5 border hover:shadow-md transition-all ${
-                    i === 0 ? 'col-span-2 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 hover:border-primary/40'
+                    i === 0 ? 'sm:col-span-2 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 hover:border-primary/40'
                              : 'bg-surface-container-low border-outline-variant hover:border-primary/30'
                   }`}
                 >
