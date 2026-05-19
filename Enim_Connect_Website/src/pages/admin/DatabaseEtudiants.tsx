@@ -171,8 +171,8 @@ function CreerEtudiantModal({ onClose, onCreated }: { onClose: () => void; onCre
     setLoading(true); setError(null);
     try {
       await api.creerCompteEtudiant({
-        email: form.email,
-        password: form.password,
+        email: form.email.trim(),
+        password: form.password.trim(),
         nom: form.nom,
         prenom: form.prenom,
         filiere: form.filiere || undefined,
@@ -236,7 +236,7 @@ function CreerEtudiantModal({ onClose, onCreated }: { onClose: () => void; onCre
 
           <div>
             <label className="block text-sm font-semibold text-on-surface mb-1.5">Mot de passe temporaire <span className="text-error">*</span></label>
-            <input type="text" value={form.password} onChange={(e) => set("password", e.target.value)} required
+            <input type="password" value={form.password} onChange={(e) => set("password", e.target.value)} required
               placeholder="Min. 8 caractères"
               className="w-full border border-outline-variant rounded-xl px-4 py-2.5 text-sm bg-surface outline-none focus:border-primary" />
           </div>

@@ -28,7 +28,7 @@ export default function CreerEntreprise() {
     setError(null);
     setLoading(true);
     try {
-      await api.creerCompteEntreprise({ email, password, nom_entreprise: nomEntreprise, secteur: secteur || undefined, ville: ville || undefined });
+      await api.creerCompteEntreprise({ email: email.trim(), password: password.trim(), nom_entreprise: nomEntreprise, secteur: secteur || undefined, ville: ville || undefined });
       setSuccess(`Compte entreprise « ${nomEntreprise} » créé et validé avec succès.`);
       setEmail(""); setPassword(""); setNomEntreprise(""); setSecteur(""); setVille("");
     } catch (err: unknown) {
