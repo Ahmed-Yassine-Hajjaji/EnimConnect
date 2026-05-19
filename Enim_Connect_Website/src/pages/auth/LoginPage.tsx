@@ -51,6 +51,7 @@ export default function LoginPage() {
               Trouvez votre stage idéal grâce au matching par IA — vos compétences
               et votre CV analysés pour vous connecter aux meilleures opportunités.
             </p>
+          </div>
         </div>
       </div>
 
