@@ -25,9 +25,12 @@ services:
       context: .
       dockerfile: Enim_Connect_Website/Dockerfile.prod
       args:
-        VITE_API_URL: ""
+        VITE_API_URL: "https://enimconnect.duckdns.org"
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     restart: always
     depends_on:
       - backend
