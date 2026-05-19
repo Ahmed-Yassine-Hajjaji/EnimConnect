@@ -78,43 +78,45 @@ export default function RechercheStages() {
               </button>
             )}
           </div>
-          {/* Filter chips */}
-          <div className="flex flex-wrap gap-2">
-            <span className="text-xs text-on-surface-variant self-center font-medium">Département :</span>
-            {NOMS_DEPARTEMENTS.map((d) => (
-              <button
-                key={d}
-                onClick={() => setDeptFilter(deptFilter === d ? null : d)}
-                className={`text-xs px-3 py-1.5 rounded-xl border font-medium transition-colors ${
-                  deptFilter === d
-                    ? "bg-primary text-white border-primary"
-                    : "bg-surface-container border-outline-variant text-on-surface-variant hover:border-primary/50 hover:text-on-surface"
-                }`}
-              >
-                {d}
-              </button>
-            ))}
-            <span className="text-xs text-on-surface-variant self-center font-medium ml-2">Durée :</span>
-            {DUREES.map((d) => (
-              <button
-                key={d.label}
-                onClick={() => setDureeFilter(dureeFilter === d.label ? null : d.label)}
-                className={`text-xs px-3 py-1.5 rounded-xl border font-medium transition-colors ${
-                  dureeFilter === d.label
-                    ? "bg-secondary text-white border-secondary"
-                    : "bg-surface-container border-outline-variant text-on-surface-variant hover:border-secondary/50 hover:text-on-surface"
-                }`}
-              >
-                {d.label}
-              </button>
-            ))}
+          {/* Filter dropdowns */}
+          <div className="flex flex-col sm:flex-row gap-2">
+            <select
+              value={deptFilter ?? ""}
+              onChange={(e) => setDeptFilter(e.target.value || null)}
+              className={`flex-1 sm:flex-none border rounded-xl px-3 py-2 text-sm outline-none transition-colors ${
+                deptFilter
+                  ? "border-primary bg-primary/5 text-primary font-medium"
+                  : "border-outline-variant bg-surface-container text-on-surface-variant"
+              }`}
+            >
+              <option value="">Tous les départements</option>
+              {NOMS_DEPARTEMENTS.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+
+            <select
+              value={dureeFilter ?? ""}
+              onChange={(e) => setDureeFilter(e.target.value || null)}
+              className={`flex-1 sm:flex-none border rounded-xl px-3 py-2 text-sm outline-none transition-colors ${
+                dureeFilter
+                  ? "border-secondary bg-secondary/5 text-secondary font-medium"
+                  : "border-outline-variant bg-surface-container text-on-surface-variant"
+              }`}
+            >
+              <option value="">Toutes les durées</option>
+              {DUREES.map((d) => (
+                <option key={d.label} value={d.label}>{d.label}</option>
+              ))}
+            </select>
+
             {(deptFilter || dureeFilter) && (
               <button
                 onClick={() => { setDeptFilter(null); setDureeFilter(null); }}
-                className="text-xs px-3 py-1.5 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 transition-colors font-medium flex items-center gap-1"
+                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-red-200 text-red-500 hover:bg-red-50 transition-colors text-sm font-medium"
               >
-                <span className="material-symbols-outlined text-sm">filter_alt_off</span>
-                Effacer filtres
+                <span className="material-symbols-outlined text-base">filter_alt_off</span>
+                Effacer
               </button>
             )}
           </div>
