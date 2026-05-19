@@ -40,7 +40,7 @@ export default function CreerEntreprise() {
 
   return (
     <main className="min-h-screen flex flex-col">
-      <div className="px-10 pt-8 pb-4">
+      <div className="px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8 pb-4">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-sm text-on-surface-variant hover:text-on-surface transition-colors mb-4"
@@ -48,7 +48,7 @@ export default function CreerEntreprise() {
           <span className="material-symbols-outlined text-xl">arrow_back</span>
           Retour
         </button>
-        <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">
+        <h1 className="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface mb-1">
           Créer un compte entreprise
         </h1>
         <p className="text-on-surface-variant text-sm">
@@ -56,8 +56,8 @@ export default function CreerEntreprise() {
         </p>
       </div>
 
-      <div className="px-10 pb-10 grid grid-cols-3 gap-6">
-        <div className="col-span-2">
+      <div className="px-4 sm:px-6 lg:px-10 pb-10 flex flex-col lg:flex-row gap-6">
+        <div className="flex-1">
           {error && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm">{error}</div>
           )}
@@ -68,7 +68,7 @@ export default function CreerEntreprise() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="bg-surface-container-low rounded-2xl border border-outline-variant p-8 space-y-6">
+          <form onSubmit={handleSubmit} className="bg-surface-container-low rounded-2xl border border-outline-variant p-4 sm:p-8 space-y-6">
             <div>
               <label className="block text-sm font-semibold text-on-surface mb-2">
                 Nom de l'entreprise <span className="text-error">*</span>
@@ -83,8 +83,8 @@ export default function CreerEntreprise() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
                 <label className="block text-sm font-semibold text-on-surface mb-2">
                   Email de connexion <span className="text-error">*</span>
                 </label>
@@ -97,7 +97,7 @@ export default function CreerEntreprise() {
                   className="w-full border border-outline-variant rounded-xl px-4 py-3 text-sm text-on-surface bg-surface placeholder-on-surface-variant outline-none focus:border-primary transition-colors"
                 />
               </div>
-              <div>
+              <div className="flex-1">
                 <label className="block text-sm font-semibold text-on-surface mb-2">
                   Mot de passe <span className="text-error">*</span>
                 </label>
@@ -113,8 +113,8 @@ export default function CreerEntreprise() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
                 <label className="block text-sm font-semibold text-on-surface mb-2">Secteur d'activité</label>
                 <select
                   value={secteur}
@@ -125,7 +125,7 @@ export default function CreerEntreprise() {
                   {SECTEURS.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
-              <div>
+              <div className="flex-1">
                 <label className="block text-sm font-semibold text-on-surface mb-2">Ville</label>
                 <input
                   type="text"
@@ -157,7 +157,7 @@ export default function CreerEntreprise() {
           </form>
         </div>
 
-        <div className="col-span-1">
+        <div className="lg:w-72 lg:flex-shrink-0">
           <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/10 p-5">
             <div className="flex items-center gap-2 mb-4">
               <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>

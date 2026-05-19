@@ -214,13 +214,13 @@ function CreerEtudiantModal({ onClose, onCreated }: { onClose: () => void; onCre
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
           {error && <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl">{error}</div>}
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
               <label className="block text-sm font-semibold text-on-surface mb-1.5">Prénom <span className="text-error">*</span></label>
               <input value={form.prenom} onChange={(e) => set("prenom", e.target.value)} required
                 className="w-full border border-outline-variant rounded-xl px-4 py-2.5 text-sm bg-surface outline-none focus:border-primary" />
             </div>
-            <div>
+            <div className="flex-1">
               <label className="block text-sm font-semibold text-on-surface mb-1.5">Nom <span className="text-error">*</span></label>
               <input value={form.nom} onChange={(e) => set("nom", e.target.value)} required
                 className="w-full border border-outline-variant rounded-xl px-4 py-2.5 text-sm bg-surface outline-none focus:border-primary" />
@@ -241,8 +241,8 @@ function CreerEtudiantModal({ onClose, onCreated }: { onClose: () => void; onCre
               className="w-full border border-outline-variant rounded-xl px-4 py-2.5 text-sm bg-surface outline-none focus:border-primary" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex-1">
               <label className="block text-sm font-semibold text-on-surface mb-1.5">Département</label>
               <select value={form.departement} onChange={(e) => set("departement", e.target.value)}
                 className="w-full border border-outline-variant rounded-xl px-4 py-2.5 text-sm bg-surface outline-none focus:border-primary">
@@ -250,7 +250,7 @@ function CreerEtudiantModal({ onClose, onCreated }: { onClose: () => void; onCre
                 {NOMS_DEPARTEMENTS.map((d) => <option key={d}>{d}</option>)}
               </select>
             </div>
-            <div>
+            <div className="flex-1">
               <label className="block text-sm font-semibold text-on-surface mb-1.5">Niveau</label>
               <select value={form.niveau} onChange={(e) => set("niveau", e.target.value)}
                 className="w-full border border-outline-variant rounded-xl px-4 py-2.5 text-sm bg-surface outline-none focus:border-primary">

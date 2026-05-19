@@ -48,26 +48,9 @@ export default function LoginPage() {
               Propulsez votre<br />carrière avec l'IA
             </h1>
             <p className="text-white/80 text-lg leading-relaxed max-w-md">
-              Découvrez des opportunités de stages personnalisées grâce à notre
-              moteur de recommandation intelligent.
+              Trouvez votre stage idéal grâce au matching par IA — vos compétences
+              et votre CV analysés pour vous connecter aux meilleures opportunités.
             </p>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="text-center">
-              <div className="font-headline font-bold text-2xl">500+</div>
-              <div className="text-white/70 text-sm">Offres de stages</div>
-            </div>
-            <div className="w-px h-10 bg-white/30"></div>
-            <div className="text-center">
-              <div className="font-headline font-bold text-2xl">200+</div>
-              <div className="text-white/70 text-sm">Entreprises partenaires</div>
-            </div>
-            <div className="w-px h-10 bg-white/30"></div>
-            <div className="text-center">
-              <div className="font-headline font-bold text-2xl">95%</div>
-              <div className="text-white/70 text-sm">Taux de satisfaction</div>
-            </div>
-          </div>
         </div>
       </div>
 
