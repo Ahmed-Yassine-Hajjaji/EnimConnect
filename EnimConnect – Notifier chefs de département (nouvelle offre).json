@@ -1,0 +1,231 @@
+{
+  "name": "EnimConnect – Notifier chefs de département (nouvelle offre)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "company-decision",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "b27b5a19-1bb7-40d8-9da3-d9c621b39651",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "company-decision"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build a rich summary of the per-department status for the email\nconst body = $input.first().json.body ?? $input.first().json;\n\nconst statut              = body.statut              ?? 'en_attente';\nconst departements_valides  = body.departements_valides  ?? [];\nconst departements_attente  = body.departements_en_attente ?? [];\n\nconst isValidated = statut === 'validee';\nconst subjectStatus = isValidated ? '✅ Validée' : '❌ Refusée';\n\n// Build HTML list snippets used in the email template\nconst validesHtml = departements_valides.length\n  ? departements_valides.map(d => `<li style=\"color:#16a34a;\">✓ ${d}</li>`).join('')\n  : '<li style=\"color:#94a3b8;\">Aucun département validé pour l\\'instant</li>';\n\nconst attenteHtml = departements_attente.length\n  ? departements_attente.map(d => `<li style=\"color:#d97706;\">⏳ ${d}</li>`).join('')\n  : '';\n\nreturn [{\n  json: {\n    ...body,\n    is_validated: isValidated,\n    subject_status: subjectStatus,\n    valides_html: validesHtml,\n    attente_html: attenteHtml\n  }\n}];"
+      },
+      "id": "540f681f-e35d-470a-b03e-6ea341e222be",
+      "name": "Préparer données email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply@enimconnect.ma",
+        "toEmail": "={{ $json.email_entreprise }}",
+        "subject": "={{ '[EnimConnect] ' + $json.subject_status + ' – ' + $json.titre_offre + ' (' + $json.departement + ')' }}",
+        "emailFormat": "html",
+        "options": {}
+      },
+      "id": "715286fa-353a-4c36-bda3-37ed32a1c8d5",
+      "name": "Envoyer email entreprise",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "webhookId": "f6e8db65-622e-4a8f-8a44-515ba8ed87c3",
+      "credentials": {
+        "smtp": {
+          "id": "GNi4cF0azauhaYhc",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"ok\" }",
+        "options": {}
+      },
+      "id": "2ed8f292-c77d-4c65-b460-dcdf3bc1568e",
+      "name": "Réponse 200 OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Flatten departments + chefs into one item per (department, chef) pair\nconst body = $input.first().json.body ?? $input.first().json;\n\nconst annonce_id     = body.annonce_id     ?? '';\nconst titre          = body.titre          ?? '';\nconst description    = body.description    ?? '';\nconst nom_entreprise = body.nom_entreprise ?? '';\nconst departements   = body.departements   ?? [];\n\nconst items = [];\nfor (const dept of departements) {\n  for (const chef of (dept.chefs ?? [])) {\n    items.push({\n      json: {\n        annonce_id,\n        titre,\n        description,\n        nom_entreprise,\n        departement:    dept.departement,\n        validation_id:  dept.validation_id,\n        chef_nom:       chef.nom,\n        chef_email:     chef.email,\n        lien_valider:   chef.lien_valider,\n        lien_refuser:   chef.lien_refuser_form\n      }\n    });\n  }\n}\n\nreturn items;"
+      },
+      "id": "053887d1-32ef-45af-b5e3-7f7b35df4186",
+      "name": "Préparer items par chef",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply@enimconnect.ma",
+        "toEmail": "={{ $json.chef_email }}",
+        "subject": "={{ '[EnimConnect] Nouvelle offre à valider : ' + $json.titre + ' (' + $json.departement + ')' }}",
+        "emailFormat": "html",
+        "options": {}
+      },
+      "id": "566ea67f-71bc-4e8a-9368-9b890a88603b",
+      "name": "Envoyer email au chef",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        464,
+        208
+      ],
+      "webhookId": "46d7be9c-d438-4282-8063-d0f346b8d83c",
+      "credentials": {
+        "smtp": {
+          "id": "GNi4cF0azauhaYhc",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chef-validation",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a9f77444-82ea-4318-b7d8-75dccb74d452",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        16,
+        208
+      ],
+      "webhookId": "chef-validation"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"ok\", \"emails_sent\": $('Préparer items par chef').all().length }",
+        "options": {}
+      },
+      "id": "7c93c55c-997b-4a2a-a0e0-0916e6beabc8",
+      "name": "Réponse 200 OK1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        688,
+        208
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Préparer données email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Préparer données email": {
+      "main": [
+        [
+          {
+            "node": "Envoyer email entreprise",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer email entreprise": {
+      "main": [
+        [
+          {
+            "node": "Réponse 200 OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Préparer items par chef": {
+      "main": [
+        [
+          {
+            "node": "Envoyer email au chef",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer email au chef": {
+      "main": [
+        [
+          {
+            "node": "Réponse 200 OK1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Préparer items par chef",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b6d20636-551d-4919-b84f-8b1281fa1aba",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8f6521c0bdbc09c159bedc2bbcda3d22966fc41cab803a3964175c024cbb20f4"
+  },
+  "id": "wT7625KHCJrAT7Vd",
+  "tags": [
+    {
+      "updatedAt": "2026-05-16T16:58:58.649Z",
+      "createdAt": "2026-05-16T16:58:58.649Z",
+      "id": "sEIk9g5ouGpOFXSr",
+      "name": "EnimConnect"
+    }
+  ]
+}

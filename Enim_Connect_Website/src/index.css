@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/container-queries";
+
+@variant dark (&.dark);
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  min-height: 100svh;
+}
+
+@theme {
+  --color-secondary-fixed-dim: #93c5fd;
+  --color-on-primary-container: #eff6ff;
+  --color-secondary-fixed: #dbeafe;
+  --color-surface-dim: #d6e4f7;
+  --color-tertiary-container: #0369a1;
+  --color-tertiary-fixed: #bae6fd;
+  --color-surface-bright: #f0f7ff;
+  --color-on-primary-fixed: #00214d;
+  --color-outline-variant: #bdd3ee;
+  --color-on-tertiary: #ffffff;
+  --color-primary-fixed: #dbeafe;
+  --color-tertiary-fixed-dim: #7dd3fc;
+  --color-on-secondary-fixed-variant: #1d4ed8;
+  --color-on-primary: #ffffff;
+  --color-error: #ba1a1a;
+  --color-on-surface: #0f172a;
+  --color-surface-container-highest: #dde8f5;
+  --color-secondary: #2563eb;
+  --color-on-primary-fixed-variant: #1e40af;
+  --color-primary-container: #3b82f6;
+  --color-on-background: #0f172a;
+  --color-surface-tint: #2563eb;
+  --color-on-tertiary-fixed: #082f49;
+  --color-primary-fixed-dim: #93c5fd;
+  --color-on-tertiary-fixed-variant: #0c4a6e;
+  --color-tertiary: #0284c7;
+  --color-surface: #f0f7ff;
+  --color-surface-variant: #dde8f5;
+  --color-surface-container-high: #e4eef9;
+  --color-surface-container: #eaf2fb;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
+  --color-primary: #1d4ed8;
+  --color-inverse-primary: #93c5fd;
+  --color-on-surface-variant: #334155;
+  --color-on-secondary-fixed: #1e3a8a;
+  --color-surface-container-low: #f0f7ff;
+  --color-outline: #64748b;
+  --color-on-secondary: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-background: #f0f7ff;
+  --color-on-secondary-container: #eff6ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-tertiary-container: #eff6ff;
+  --color-secondary-container: #3b82f6;
+  --color-inverse-surface: #1e293b;
+  --color-inverse-on-surface: #e8f1fb;
+
+  --font-headline: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-label: "Inter", sans-serif;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #c7c4d7;
+  border-radius: 10px;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(199, 196, 215, 0.2);
+}
+
+.ai-gradient-text {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-primary to-secondary text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2;
+}
+
+.btn-ghost {
+  @apply border border-outline-variant text-on-surface-variant font-semibold px-6 py-3 rounded-xl hover:bg-surface-container transition-colors flex items-center gap-2;
+}
+

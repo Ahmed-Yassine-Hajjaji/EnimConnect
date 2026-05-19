@@ -1,0 +1,61 @@
+services:
+
+  # ── Backend FastAPI ─────────────────────────────────────────────────────────
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    environment:
+      # En prod : les webhooks N8n passent par le réseau Docker interne
+      - N8N_WEBHOOK_URL=http://n8n:5678/webhook/chef-validation
+      - N8N_COMPANY_WEBHOOK_URL=http://n8n:5678/webhook/company-decision
+    volumes:
+      # Volume nommé pour persister CVs et photos (pas de bind mount)
+      - backend_storage:/app/storage
+    restart: always
+    depends_on:
+      - n8n
+    # Pas de ports exposés — nginx sert de reverse proxy
+    expose:
+      - "8000"
+
+  # ── Frontend React (build statique) + nginx (reverse proxy) ─────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Enim_Connect_Website/Dockerfile.prod
+      args:
+        VITE_API_URL: ""
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - backend
+
+  # ── N8n ────────────────────────────────────────────────────────────────────
+  n8n:
+    image: n8nio/n8n:latest
+    env_file:
+      - ./backend/.env
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://n8n:5678
+      - GENERIC_TIMEZONE=Africa/Casablanca
+      - N8N_EMAIL_MODE=smtp
+      - N8N_SMTP_HOST=${N8N_SMTP_HOST:-smtp.gmail.com}
+      - N8N_SMTP_PORT=${N8N_SMTP_PORT:-587}
+      - N8N_SMTP_USER=${N8N_SMTP_USER}
+      - N8N_SMTP_PASS=${N8N_SMTP_PASS}
+      - N8N_SMTP_SENDER=${N8N_SMTP_SENDER:-noreply@enimconnect.ma}
+      - N8N_SMTP_SSL=${N8N_SMTP_SSL:-false}
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: always
+    expose:
+      - "5678"
+
+volumes:
+  backend_storage:
+  n8n_data:

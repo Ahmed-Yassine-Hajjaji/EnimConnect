@@ -1,0 +1,52 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override N8n URLs to use docker service name (not localhost)
+      - N8N_WEBHOOK_URL=http://n8n:5678/webhook/chef-validation
+      - N8N_COMPANY_WEBHOOK_URL=http://n8n:5678/webhook/company-decision
+    volumes:
+      - ./backend:/app
+      - ./backend/storage:/app/storage
+    depends_on:
+      - n8n
+
+  frontend:
+    build: ./Enim_Connect_Website
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Enim_Connect_Website/src:/app/src
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  n8n:
+    image: n8nio/n8n:latest
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678
+      - GENERIC_TIMEZONE=Africa/Casablanca
+      # SMTP — configuré depuis backend/.env (N8N_SMTP_*)
+      - N8N_EMAIL_MODE=smtp
+      - N8N_SMTP_HOST=${N8N_SMTP_HOST:-smtp.gmail.com}
+      - N8N_SMTP_PORT=${N8N_SMTP_PORT:-587}
+      - N8N_SMTP_USER=${N8N_SMTP_USER}
+      - N8N_SMTP_PASS=${N8N_SMTP_PASS}
+      - N8N_SMTP_SENDER=${N8N_SMTP_SENDER:-noreply@enimconnect.ma}
+      - N8N_SMTP_SSL=${N8N_SMTP_SSL:-false}
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:
+

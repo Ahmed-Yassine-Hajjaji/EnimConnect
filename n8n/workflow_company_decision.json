@@ -1,0 +1,94 @@
+{
+  "name": "EnimConnect – Notifier entreprise (décision chef)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "company-decision",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "b2c3d4e5-0001-0001-0001-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "company-decision"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build a rich summary of the per-department status for the email\nconst body = $input.first().json.body ?? $input.first().json;\n\nconst statut              = body.statut              ?? 'en_attente';\nconst departements_valides  = body.departements_valides  ?? [];\nconst departements_attente  = body.departements_en_attente ?? [];\n\nconst isValidated = statut === 'validee';\nconst subjectStatus = isValidated ? '✅ Validée' : '❌ Refusée';\n\n// Build HTML list snippets used in the email template\nconst validesHtml = departements_valides.length\n  ? departements_valides.map(d => `<li style=\"color:#16a34a;\">✓ ${d}</li>`).join('')\n  : '<li style=\"color:#94a3b8;\">Aucun département validé pour l\\'instant</li>';\n\nconst attenteHtml = departements_attente.length\n  ? departements_attente.map(d => `<li style=\"color:#d97706;\">⏳ ${d}</li>`).join('')\n  : '';\n\nreturn [{\n  json: {\n    ...body,\n    is_validated: isValidated,\n    subject_status: subjectStatus,\n    valides_html: validesHtml,\n    attente_html: attenteHtml\n  }\n}];"
+      },
+      "id": "b2c3d4e5-0002-0002-0002-000000000002",
+      "name": "Préparer données email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply@enimconnect.ma",
+        "toEmail": "={{ $json.email_entreprise }}",
+        "subject": "={{ '[EnimConnect] ' + $json.subject_status + ' – ' + $json.titre_offre + ' (' + $json.departement + ')' }}",
+        "emailType": "html",
+        "message": "=<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Décision sur votre offre</title>\n  <style>\n    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }\n    .container { max-width: 600px; margin: 32px auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }\n    .header-ok  { background: linear-gradient(135deg, #16a34a, #059669); color: #fff; padding: 32px 40px; }\n    .header-ko  { background: linear-gradient(135deg, #dc2626, #b91c1c); color: #fff; padding: 32px 40px; }\n    .header-ok h1, .header-ko h1 { margin: 0 0 4px; font-size: 22px; }\n    .header-ok p, .header-ko p  { margin: 0; opacity: 0.85; font-size: 14px; }\n    .body { padding: 32px 40px; }\n    .decision-box { border-radius: 12px; padding: 20px; margin-bottom: 24px; }\n    .decision-box.ok { background: #f0fdf4; border: 1px solid #bbf7d0; }\n    .decision-box.ko { background: #fef2f2; border: 1px solid #fecaca; }\n    .decision-label { font-size: 16px; font-weight: 700; margin: 0 0 6px; }\n    .decision-label.ok { color: #15803d; }\n    .decision-label.ko { color: #b91c1c; }\n    .motif-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 14px 18px; margin-top: 14px; }\n    .motif-box p { margin: 0; font-size: 14px; color: #92400e; }\n    .summary { margin-top: 24px; }\n    .summary h3 { font-size: 15px; color: #334155; margin: 0 0 8px; }\n    .summary ul { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.8; }\n    .footer { background: #f1f5f9; padding: 20px 40px; font-size: 12px; color: #94a3b8; text-align: center; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    {{ $json.is_validated ? '<div class=\"header-ok\">' : '<div class=\"header-ko\">'}}\n      <h1>{{ $json.is_validated ? '✅ Offre validée' : '❌ Offre refusée' }}</h1>\n      <p>Décision pour le département {{ $json.departement }}</p>\n    </div>\n\n    <div class=\"body\">\n      <p>Bonjour <strong>{{ $json.nom_entreprise }}</strong>,</p>\n      <p style=\"font-size:14px;color:#475569;\">\n        Le chef du <strong>{{ $json.departement }}</strong> a pris une décision concernant votre offre <strong>« {{ $json.titre_offre }} »</strong>.\n      </p>\n\n      <div class=\"decision-box {{ $json.is_validated ? 'ok' : 'ko' }}\">\n        <p class=\"decision-label {{ $json.is_validated ? 'ok' : 'ko' }}\">\n          {{ $json.is_validated ? '✓ Offre validée pour ce département' : '✗ Offre refusée pour ce département' }}\n        </p>\n        <p style=\"font-size:13px;color:#64748b;margin:4px 0 0;\">Par : {{ $json.chef_nom }}</p>\n        {{ $json.motif ? '<div class=\"motif-box\"><p><strong>Motif du refus :</strong> ' + $json.motif + '</p></div>' : '' }}\n      </div>\n\n      <div class=\"summary\">\n        <h3>Récapitulatif de validation</h3>\n        <ul>\n          {{ $json.valides_html }}\n          {{ $json.attente_html }}\n        </ul>\n      </div>\n\n      <p style=\"font-size:13px;color:#94a3b8;margin-top:24px;\">\n        Vous pouvez consulter le détail dans votre espace <em>Mes offres</em> sur EnimConnect.\n      </p>\n    </div>\n\n    <div class=\"footer\">\n      EnimConnect · Plateforme de stages ENSMR · Ce message est généré automatiquement.\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "b2c3d4e5-0003-0003-0003-000000000003",
+      "name": "Envoyer email entreprise",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP EnimConnect"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"ok\" }"
+      },
+      "id": "b2c3d4e5-0004-0004-0004-000000000004",
+      "name": "Réponse 200 OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          { "node": "Préparer données email", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Préparer données email": {
+      "main": [
+        [
+          { "node": "Envoyer email entreprise", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Envoyer email entreprise": {
+      "main": [
+        [
+          { "node": "Réponse 200 OK", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "enimconnect"
+  },
+  "tags": [{ "name": "EnimConnect" }]
+}

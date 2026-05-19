@@ -1,0 +1,94 @@
+{
+  "name": "EnimConnect – Notifier chefs de département (nouvelle offre)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chef-validation",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "chef-validation"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Flatten departments + chefs into one item per (department, chef) pair\nconst body = $input.first().json.body ?? $input.first().json;\n\nconst annonce_id     = body.annonce_id     ?? '';\nconst titre          = body.titre          ?? '';\nconst description    = body.description    ?? '';\nconst nom_entreprise = body.nom_entreprise ?? '';\nconst departements   = body.departements   ?? [];\n\nconst items = [];\nfor (const dept of departements) {\n  for (const chef of (dept.chefs ?? [])) {\n    items.push({\n      json: {\n        annonce_id,\n        titre,\n        description,\n        nom_entreprise,\n        departement:    dept.departement,\n        validation_id:  dept.validation_id,\n        chef_nom:       chef.nom,\n        chef_email:     chef.email,\n        lien_decision:  chef.lien_decision\n      }\n    });\n  }\n}\n\nreturn items;"
+      },
+      "id": "a1b2c3d4-0002-0002-0002-000000000002",
+      "name": "Préparer items par chef",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply@enimconnect.ma",
+        "toEmail": "={{ $json.chef_email }}",
+        "subject": "={{ '[EnimConnect] Nouvelle offre à valider : ' + $json.titre + ' (' + $json.departement + ')' }}",
+        "emailType": "html",
+        "message": "=<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Nouvelle offre à valider</title>\n  <style>\n    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }\n    .container { max-width: 600px; margin: 32px auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }\n    .header { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; padding: 32px 40px; }\n    .header h1 { margin: 0 0 4px; font-size: 22px; }\n    .header p { margin: 0; opacity: 0.85; font-size: 14px; }\n    .body { padding: 32px 40px; }\n    .dept-badge { display: inline-block; background: #ede9fe; color: #5b21b6; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }\n    .offer-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; }\n    .offer-title { font-size: 18px; font-weight: 700; color: #1e293b; margin: 0 0 8px; }\n    .offer-company { font-size: 14px; color: #64748b; margin: 0 0 12px; }\n    .offer-desc { font-size: 14px; color: #475569; line-height: 1.6; white-space: pre-wrap; }\n    .btn-decision { display: inline-block; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; text-decoration: none; padding: 16px 36px; border-radius: 12px; font-weight: 700; font-size: 16px; }\n    .footer { background: #f1f5f9; padding: 20px 40px; font-size: 12px; color: #94a3b8; text-align: center; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Nouvelle offre de stage</h1>\n      <p>Une entreprise soumet une offre pour votre département</p>\n    </div>\n    <div class=\"body\">\n      <p>Bonjour <strong>{{ $json.chef_nom }}</strong>,</p>\n      <span class=\"dept-badge\">{{ $json.departement }}</span>\n      <div class=\"offer-box\">\n        <p class=\"offer-title\">{{ $json.titre }}</p>\n        <p class=\"offer-company\">Entreprise : <strong>{{ $json.nom_entreprise }}</strong></p>\n        <p class=\"offer-desc\">{{ $json.description }}</p>\n      </div>\n      <p style=\"font-size:14px;color:#475569;margin-bottom:20px;\">Cliquez sur le bouton ci-dessous pour consulter l'offre et prendre votre décision :</p>\n      <div style=\"text-align:center;\">\n        <a href=\"{{ $json.lien_decision }}\" class=\"btn-decision\">📋 Prendre ma décision</a>\n      </div>\n      <p style=\"font-size:12px;color:#94a3b8;margin-top:20px;\">Ce lien est valable 48 heures et ne peut être utilisé qu'une seule fois.</p>\n    </div>\n    <div class=\"footer\">\n      EnimConnect · Plateforme de stages ENSMR · Ce message est généré automatiquement.\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0003-0003-0003-000000000003",
+      "name": "Envoyer email au chef",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "credentials": {
+        "smtp": {
+          "id": "smtp-credentials",
+          "name": "SMTP EnimConnect"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"status\": \"ok\", \"emails_sent\": $('Préparer items par chef').all().length }"
+      },
+      "id": "a1b2c3d4-0004-0004-0004-000000000004",
+      "name": "Réponse 200 OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          { "node": "Préparer items par chef", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Préparer items par chef": {
+      "main": [
+        [
+          { "node": "Envoyer email au chef", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Envoyer email au chef": {
+      "main": [
+        [
+          { "node": "Réponse 200 OK", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "enimconnect"
+  },
+  "tags": [{ "name": "EnimConnect" }]
+}

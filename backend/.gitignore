@@ -1,0 +1,23 @@
+# ─── Secrets ─────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+
+# ─── Données personnelles ─────────────────────────────────────────────────────
+storage/cvs/
+storage/photos/
+!storage/.gitkeep
+!storage/cvs/.gitkeep
+!storage/photos/.gitkeep
+
+# ─── Alembic ─────────────────────────────────────────────────────────────────
+alembic/versions/*.pyc
