@@ -77,7 +77,7 @@ export default function DetailsOffre() {
 
   return (
     <main className="min-h-screen">
-      <div className="px-10 pt-6 pb-2">
+      <div className="px-4 sm:px-6 lg:px-10 pt-4 lg:pt-6 pb-2">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-sm text-on-surface-variant hover:text-on-surface transition-colors"
@@ -87,10 +87,10 @@ export default function DetailsOffre() {
         </button>
       </div>
 
-      <div className="px-10 py-4 grid grid-cols-12 gap-6">
-        <div className="col-span-8 space-y-6">
-          <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/20 p-8">
-            <div className="flex items-start gap-5">
+      <div className="px-4 sm:px-6 lg:px-10 py-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-8 space-y-6">
+          <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/20 p-5 sm:p-8">
+            <div className="flex items-start gap-4 sm:gap-5">
               <div className="w-16 h-16 rounded-2xl bg-white border border-outline-variant flex items-center justify-center font-bold text-primary text-lg shadow-sm">
                 {(annonce.nom_entreprise ?? "?").slice(0, 2).toUpperCase()}
               </div>
@@ -133,8 +133,8 @@ export default function DetailsOffre() {
           </div>
         </div>
 
-        <div className="col-span-4">
-          <div className="sticky top-24 space-y-4">
+        <div className="lg:col-span-4">
+          <div className="lg:sticky lg:top-24 space-y-4">
             <div className="bg-surface-container-low rounded-2xl border border-outline-variant p-5">
               <div className="mb-4 text-sm text-on-surface-variant">
                 Publiée le{" "}

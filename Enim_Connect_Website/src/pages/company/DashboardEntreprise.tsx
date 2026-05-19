@@ -43,8 +43,8 @@ export default function DashboardEntreprise() {
   return (
     <main className="min-h-screen flex flex-col">
       {/* Header */}
-      <div className="px-10 pt-8 pb-4">
-        <div className="flex items-center justify-between">
+      <div className="px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">
               {loading ? "Chargement…" : (entreprise?.nom_entreprise || "Tableau de bord")}
@@ -58,18 +58,18 @@ export default function DashboardEntreprise() {
               )}
             </p>
           </div>
-          <Link to="/entreprise/publier-offre" className="btn-primary">
+          <Link to="/entreprise/publier-offre" className="btn-primary sm:w-auto w-full justify-center">
             <span className="material-symbols-outlined text-xl">add</span>
             Publier une offre
           </Link>
         </div>
       </div>
 
-      <div className="flex flex-1 gap-6 px-10 pb-10">
+      <div className="flex flex-col lg:flex-row flex-1 gap-6 px-4 sm:px-6 lg:px-10 pb-10">
         {/* Left */}
         <div className="flex-1 space-y-6">
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4">
             {[
               { icon: "work", label: "Total offres", value: total, gradient: true },
               { icon: "check_circle", label: "Actives", value: actives, iconCls: "text-green-600 bg-green-100" },
@@ -118,7 +118,8 @@ export default function DashboardEntreprise() {
                 </Link>
               </div>
             ) : (
-              <table className="w-full">
+              <div className="overflow-x-auto">
+              <table className="w-full min-w-[520px]">
                 <thead>
                   <tr className="border-b border-outline-variant bg-surface-container">
                     {["Poste", "Département", "Durée", "Statut", "Date", ""].map((h) => (
@@ -171,13 +172,14 @@ export default function DashboardEntreprise() {
                   })}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
         </div>
 
         {/* Right panel */}
-        <div className="w-72 flex-shrink-0">
-          <div className="sticky top-24 space-y-4">
+        <div className="w-full lg:w-72 lg:flex-shrink-0">
+          <div className="lg:sticky lg:top-24 space-y-4">
             <div className="bg-gradient-to-br from-primary/5 via-secondary/5 to-transparent rounded-2xl border border-primary/10 p-5">
               <h3 className="font-headline font-bold text-on-surface mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>rocket_launch</span>

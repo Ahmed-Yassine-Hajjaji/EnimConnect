@@ -30,7 +30,7 @@ export default function MesCandidatures() {
 
   return (
     <main className="min-h-screen">
-      <div className="sticky top-16 z-10 bg-surface/90 backdrop-blur-md border-b border-outline-variant px-10 py-5">
+      <div className="sticky top-16 z-10 bg-surface/90 backdrop-blur-md border-b border-outline-variant px-4 sm:px-6 lg:px-10 py-4 lg:py-5">
         <div className="mb-2">
           <h1 className="font-headline font-bold text-2xl text-on-surface">Mes candidatures</h1>
           <p className="text-sm text-on-surface-variant mt-0.5">
@@ -39,7 +39,7 @@ export default function MesCandidatures() {
         </div>
       </div>
 
-      <div className="px-10 py-6 max-w-3xl">
+      <div className="px-4 sm:px-6 lg:px-10 py-4 lg:py-6 max-w-3xl">
         {loading && (
           <div className="flex items-center text-on-surface-variant py-10">
             <span className="material-symbols-outlined animate-spin mr-2">progress_activity</span>
@@ -68,10 +68,10 @@ export default function MesCandidatures() {
           {candidatures.map((c) => (
             <div
               key={c.id}
-              className="bg-surface-container-low rounded-2xl p-6 border border-outline-variant hover:shadow-sm transition-shadow"
+              className="bg-surface-container-low rounded-2xl p-4 sm:p-6 border border-outline-variant hover:shadow-sm transition-shadow"
             >
-              <div className="flex items-start justify-between">
-                <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div className="flex gap-3 sm:gap-4">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary flex-shrink-0 text-sm">
                     {(c.nom_entreprise ?? "?").slice(0, 2).toUpperCase()}
                   </div>
@@ -88,7 +88,7 @@ export default function MesCandidatures() {
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-2 flex-shrink-0 ml-4">
+                <div className="flex gap-2 flex-shrink-0 sm:ml-4 self-start sm:self-auto">
                   <Link
                     to={`/etudiant/offre/${c.annonce_id}`}
                     className="btn-ghost text-xs px-3 py-2"
