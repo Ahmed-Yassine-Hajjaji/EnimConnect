@@ -65,15 +65,15 @@ export default function CandidatsFavoris() {
   return (
     <div className="flex-grow flex flex-col min-h-screen">
       {/* Header */}
-      <div className="sticky top-16 z-10 bg-surface/95 backdrop-blur-md border-b border-outline-variant px-10 py-5">
-        <div className="flex items-center justify-between mb-4">
+      <div className="sticky top-16 z-10 bg-surface/95 backdrop-blur-md border-b border-outline-variant px-4 sm:px-6 lg:px-10 py-4 lg:py-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
             <h1 className="font-headline font-bold text-2xl text-on-surface">Recherche d'étudiants</h1>
             <p className="text-sm text-on-surface-variant mt-0.5">
               {loading ? "Chargement…" : `${filtered.length} étudiant${filtered.length !== 1 ? "s" : ""} trouvé${filtered.length !== 1 ? "s" : ""}`}
             </p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-xl">
+          <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-xl self-start sm:self-auto">
             <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>person_search</span>
             <span className="text-sm font-medium text-primary">Base étudiants ENSMR</span>
           </div>
@@ -81,7 +81,7 @@ export default function CandidatsFavoris() {
 
         {/* Filters */}
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-2 bg-surface-container border border-outline-variant rounded-xl px-3 py-2 w-56">
+          <div className="flex items-center gap-2 bg-surface-container border border-outline-variant rounded-xl px-3 py-2 flex-1 sm:flex-none sm:w-56">
             <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
             <input
               type="text"
@@ -111,7 +111,7 @@ export default function CandidatsFavoris() {
       </div>
 
       {/* Content */}
-      <div className="px-10 py-6 flex-1">
+      <div className="px-4 sm:px-6 lg:px-10 py-6 flex-1">
         {loading ? (
           <div className="flex items-center justify-center py-24">
             <span className="material-symbols-outlined text-4xl animate-spin text-on-surface-variant">progress_activity</span>
@@ -123,7 +123,7 @@ export default function CandidatsFavoris() {
             <p className="text-on-surface-variant text-sm">Modifiez vos filtres ou attendez que des étudiants complètent leur profil.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((e, i) => (
               <div
                 key={e.etudiant_id}

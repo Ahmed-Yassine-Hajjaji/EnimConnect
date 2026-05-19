@@ -48,7 +48,7 @@ export default function PublierOffre() {
 
   return (
     <main className="min-h-screen flex flex-col">
-      <div className="px-10 pt-8 pb-4">
+      <div className="px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8 pb-4">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-sm text-on-surface-variant hover:text-on-surface transition-colors mb-4"
@@ -56,16 +56,16 @@ export default function PublierOffre() {
           <span className="material-symbols-outlined text-xl">arrow_back</span>
           Retour
         </button>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">
+            <h1 className="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface mb-1">
               Publier une offre
             </h1>
             <p className="text-on-surface-variant text-sm">
               Chaque département sélectionné sera notifié indépendamment — son chef valide pour ses étudiants.
             </p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-xl">
+          <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-xl self-start sm:self-auto">
             <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
               auto_awesome
             </span>
@@ -74,8 +74,8 @@ export default function PublierOffre() {
         </div>
       </div>
 
-      <div className="flex-1 px-10 pb-10 grid grid-cols-3 gap-6">
-        <div className="col-span-2">
+      <div className="flex-1 px-4 sm:px-6 lg:px-10 pb-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
           {error && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm">{error}</div>
           )}
@@ -86,7 +86,7 @@ export default function PublierOffre() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="bg-surface-container-low rounded-2xl border border-outline-variant p-8 space-y-6">
+          <form onSubmit={handleSubmit} className="bg-surface-container-low rounded-2xl border border-outline-variant p-4 sm:p-8 space-y-6">
             {/* Titre */}
             <div>
               <label className="block text-sm font-semibold text-on-surface mb-2">
@@ -128,7 +128,7 @@ export default function PublierOffre() {
               <p className="text-xs text-on-surface-variant mb-3">
                 Chaque chef de département sélectionné validera indépendamment. Les étudiants d'un département ne voient l'offre qu'après validation de leur chef.
               </p>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {ENSMR_DEPARTEMENTS.map((dept) => {
                   const selected = selectedDepts.includes(dept.nom);
                   return (
@@ -177,7 +177,7 @@ export default function PublierOffre() {
             </div>
 
             {/* Durée */}
-            <div className="w-48">
+            <div className="w-full sm:w-48">
               <label className="block text-sm font-semibold text-on-surface mb-2">Durée (mois)</label>
               <input
                 type="number"
@@ -210,7 +210,7 @@ export default function PublierOffre() {
         </div>
 
         {/* Sidebar */}
-        <div className="col-span-1 space-y-4">
+        <div className="lg:col-span-1 space-y-4">
           <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl border border-primary/10 p-5">
             <div className="flex items-center gap-2 mb-4">
               <span className="material-symbols-outlined text-primary text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>info</span>

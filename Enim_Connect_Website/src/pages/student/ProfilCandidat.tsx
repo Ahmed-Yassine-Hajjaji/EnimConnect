@@ -165,17 +165,17 @@ export default function ProfilCandidat() {
   );
 
   return (
-    <div className="p-8 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
       <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-on-surface-variant hover:text-on-surface mb-6">
         <span className="material-symbols-outlined text-xl">arrow_back</span>Retour
       </button>
 
-      <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-6">Mon profil</h1>
+      <h1 className="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface mb-6">Mon profil</h1>
 
       {success && <div className="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm">{success}</div>}
       {error && <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm">{error}</div>}
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left */}
         <div className="space-y-4">
           {/* Photo + identity */}
@@ -257,11 +257,11 @@ export default function ProfilCandidat() {
         </div>
 
         {/* Right — edit form */}
-        <div className="col-span-2">
+        <div className="lg:col-span-2">
           <form onSubmit={handleSave} className="bg-surface-container-low rounded-2xl border border-outline-variant p-6 space-y-5">
             <h2 className="font-headline font-bold text-lg text-on-surface">Informations personnelles</h2>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 { label: 'Prénom', val: prenom, set: setPrenom },
                 { label: 'Nom', val: nom, set: setNom },
@@ -280,7 +280,7 @@ export default function ProfilCandidat() {
                 className="w-full border border-outline-variant rounded-xl px-4 py-2.5 text-sm bg-surface outline-none focus:border-primary" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-on-surface mb-1.5">Département</label>
                 <select value={departement} onChange={(e) => { setDepartement(e.target.value); setFiliere(''); }}

@@ -339,15 +339,15 @@ export default function DatabaseEtudiants() {
       )}
 
       {/* Header */}
-      <div className="sticky top-16 z-10 bg-surface/95 backdrop-blur-md border-b border-outline-variant px-10 py-5">
-        <div className="flex items-center justify-between mb-4">
+      <div className="sticky top-16 z-10 bg-surface/95 backdrop-blur-md border-b border-outline-variant px-4 sm:px-6 lg:px-10 py-4 lg:py-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
             <h1 className="font-headline font-bold text-2xl text-on-surface">Base de données étudiants</h1>
             <p className="text-sm text-on-surface-variant mt-0.5">
               {loading ? "Chargement…" : `${filtered.length} étudiant${filtered.length !== 1 ? "s" : ""} · ${stats.avec_cv} avec CV`}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <div className="text-center px-4 py-2 bg-surface-container-low rounded-xl border border-outline-variant">
               <div className="font-headline font-bold text-xl text-on-surface">{stats.total}</div>
               <div className="text-xs text-on-surface-variant">Total inscrits</div>
@@ -358,14 +358,15 @@ export default function DatabaseEtudiants() {
             </div>
             <button onClick={() => setShowCreate(true)} className="btn-primary">
               <span className="material-symbols-outlined text-xl">person_add</span>
-              Créer un étudiant
+              <span className="hidden sm:inline">Créer un étudiant</span>
+              <span className="sm:hidden">Créer</span>
             </button>
           </div>
         </div>
 
         {/* Filters */}
         <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-2 bg-surface-container border border-outline-variant rounded-xl px-3 py-2 w-60">
+          <div className="flex items-center gap-2 bg-surface-container border border-outline-variant rounded-xl px-3 py-2 flex-1 sm:flex-none sm:w-60">
             <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
             <input
               type="text"
@@ -400,7 +401,7 @@ export default function DatabaseEtudiants() {
       </div>
 
       {/* Table */}
-      <div className="px-10 py-6 flex-1">
+      <div className="px-4 sm:px-6 lg:px-10 py-6 flex-1">
         {loading ? (
           <div className="flex items-center justify-center py-24">
             <span className="material-symbols-outlined text-4xl animate-spin text-on-surface-variant">progress_activity</span>
@@ -413,7 +414,8 @@ export default function DatabaseEtudiants() {
           </div>
         ) : (
           <div className="bg-surface-container-low rounded-2xl border border-outline-variant overflow-hidden">
-            <table className="w-full">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[760px]">
               <thead>
                 <tr className="border-b border-outline-variant bg-surface-container">
                   {["Étudiant", "Email", "Filière / Département", "Niveau", "Compétences", "CV", "Actions"].map((h) => (
@@ -482,6 +484,7 @@ export default function DatabaseEtudiants() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </div>

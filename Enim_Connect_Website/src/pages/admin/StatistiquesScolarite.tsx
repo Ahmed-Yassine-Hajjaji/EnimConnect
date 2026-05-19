@@ -45,22 +45,22 @@ export default function StatistiquesScolarite() {
   const maxDept = deptEntries[0]?.[1] ?? 1;
 
   return (
-    <main className="min-h-screen pb-12 px-10 pt-8">
-      <div className="flex items-center justify-between mb-8">
+    <main className="min-h-screen pb-12 px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 lg:mb-8">
         <div>
-          <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">
+          <h1 className="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface mb-1">
             Statistiques
           </h1>
-          <p className="text-on-surface-variant">Tableau de bord du service de scolarité EnimConnect</p>
+          <p className="text-on-surface-variant text-sm">Tableau de bord du service de scolarité EnimConnect</p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-xl">
+        <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-xl self-start sm:self-auto">
           <span className="material-symbols-outlined text-primary text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>analytics</span>
           <span className="text-sm font-medium text-primary">Service de scolarité</span>
         </div>
       </div>
 
       {/* Platform KPIs */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4 mb-8">
         {[
           { label: "Étudiants inscrits", value: statsEt?.total, icon: "school", color: "from-primary to-secondary", white: true },
           { label: "Entreprises validées", value: statsGlob?.entreprises.validees, icon: "business", color: "bg-surface-container-low border border-outline-variant", white: false },
@@ -82,9 +82,9 @@ export default function StatistiquesScolarite() {
         ))}
       </div>
 
-      <div className="grid grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Par département */}
-        <div className="col-span-2 bg-surface-container-low rounded-2xl border border-outline-variant p-6">
+        <div className="lg:col-span-2 bg-surface-container-low rounded-2xl border border-outline-variant p-6">
           <h2 className="font-headline font-bold text-lg text-on-surface mb-5">Étudiants par département</h2>
           {loading ? (
             <div className="flex items-center justify-center py-10">

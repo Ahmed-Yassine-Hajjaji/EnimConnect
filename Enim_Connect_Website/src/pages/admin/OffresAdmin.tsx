@@ -113,14 +113,14 @@ export default function OffresAdmin() {
   return (
     <main className="min-h-screen flex flex-col">
       {/* Header */}
-      <div className="px-10 pt-8 pb-4">
-        <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">Gestion des offres</h1>
+      <div className="px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8 pb-4">
+        <h1 className="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface mb-1">Gestion des offres</h1>
         <p className="text-on-surface-variant text-sm">Consultez et gérez toutes les offres de stage</p>
       </div>
 
       {/* Toggle vue */}
-      <div className="px-10 mb-6">
-        <div className="flex bg-surface-container rounded-xl p-1 w-fit gap-1">
+      <div className="px-4 sm:px-6 lg:px-10 mb-6">
+        <div className="flex bg-surface-container rounded-xl p-1 w-full sm:w-fit gap-1">
           <button
             onClick={() => switchVue('entreprise')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
@@ -148,9 +148,9 @@ export default function OffresAdmin() {
 
       {/* Contenu */}
       {vue === 'entreprise' ? (
-        <div className="px-10 pb-10 flex-1 flex gap-5" style={{ minHeight: 0 }}>
+        <div className="px-4 sm:px-6 lg:px-10 pb-10 flex-1 flex flex-col lg:flex-row gap-5" style={{ minHeight: 0 }}>
           {/* Colonne gauche — liste entreprises */}
-          <div className="w-80 flex-shrink-0 flex flex-col gap-3">
+          <div className="w-full lg:w-80 lg:flex-shrink-0 flex flex-col gap-3">
             <div className="flex items-center gap-2 bg-surface-container-low border border-outline-variant rounded-xl px-3 py-2 focus-within:border-primary transition-colors">
               <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
               <input
@@ -264,7 +264,8 @@ export default function OffresAdmin() {
                       <p className="text-sm text-on-surface-variant">Aucune offre correspondante</p>
                     </div>
                   ) : (
-                    <table className="w-full">
+                    <div className="overflow-x-auto">
+                    <table className="w-full min-w-[560px]">
                       <thead>
                         <tr className="border-b border-outline-variant bg-surface-container">
                           {['Offre', 'Département', 'Durée', 'Date', 'Statut', 'Active', ''].map((h) => (
@@ -304,6 +305,7 @@ export default function OffresAdmin() {
                         })}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
               </>
@@ -312,10 +314,10 @@ export default function OffresAdmin() {
         </div>
       ) : (
         /* ── Vue Par offres ── */
-        <div className="px-10 pb-10 flex-1 flex flex-col gap-4">
+        <div className="px-4 sm:px-6 lg:px-10 pb-10 flex-1 flex flex-col gap-4">
           {/* Filtres */}
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex bg-surface-container rounded-xl p-1 gap-1">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
+            <div className="flex bg-surface-container rounded-xl p-1 gap-1 w-full sm:w-fit overflow-x-auto">
               {(['toutes', 'en_attente', 'validee', 'rejetee'] as FilterStatut[]).map((f) => (
                 <button
                   key={f}
@@ -333,7 +335,7 @@ export default function OffresAdmin() {
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-2 bg-surface-container-low border border-outline-variant rounded-xl px-3 py-2 w-64 focus-within:border-primary transition-colors">
+            <div className="flex items-center gap-2 bg-surface-container-low border border-outline-variant rounded-xl px-3 py-2 w-full sm:w-64 focus-within:border-primary transition-colors">
               <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
               <input
                 type="text"
@@ -348,7 +350,7 @@ export default function OffresAdmin() {
                 </button>
               )}
             </div>
-            <span className="text-sm text-on-surface-variant ml-auto">{filteredToutesOffres.length} offre{filteredToutesOffres.length !== 1 ? 's' : ''}</span>
+            <span className="text-sm text-on-surface-variant sm:ml-auto">{filteredToutesOffres.length} offre{filteredToutesOffres.length !== 1 ? 's' : ''}</span>
           </div>
 
           <div className="bg-surface-container-low border border-outline-variant rounded-2xl overflow-hidden">
@@ -363,7 +365,8 @@ export default function OffresAdmin() {
                 <p className="text-sm text-on-surface-variant">Aucune offre ne correspond à ce filtre.</p>
               </div>
             ) : (
-              <table className="w-full">
+              <div className="overflow-x-auto">
+              <table className="w-full min-w-[700px]">
                 <thead>
                   <tr className="border-b border-outline-variant bg-surface-container">
                     {['Offre', 'Entreprise', 'Département', 'Durée', 'Date', 'Statut', 'Active', ''].map((h) => (
@@ -404,6 +407,7 @@ export default function OffresAdmin() {
                   })}
                 </tbody>
               </table>
+              </div>
             )}
           </div>
         </div>

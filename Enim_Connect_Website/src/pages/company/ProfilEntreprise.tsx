@@ -107,7 +107,7 @@ export default function ProfilEntreprise() {
   }
 
   return (
-    <main className="min-h-screen px-10 pt-8 pb-12">
+    <main className="min-h-screen px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8 pb-12">
       <div className="max-w-2xl mx-auto">
         <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">Mon profil entreprise</h1>
         <p className="text-on-surface-variant text-sm mb-8">Informations visibles par les étudiants et le club EnimConnect</p>
@@ -167,7 +167,7 @@ export default function ProfilEntreprise() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-on-surface mb-1.5">Secteur d'activité</label>
               <input

@@ -196,7 +196,7 @@ export default function EntreprisesValidation() {
         />
       )}
 
-      <div className="sticky top-16 z-10 bg-surface/90 backdrop-blur-md border-b border-outline-variant px-10 py-5">
+      <div className="sticky top-16 z-10 bg-surface/90 backdrop-blur-md border-b border-outline-variant px-4 sm:px-6 lg:px-10 py-4 lg:py-5">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="font-headline font-bold text-2xl text-on-surface">
@@ -207,7 +207,7 @@ export default function EntreprisesValidation() {
             </p>
           </div>
         </div>
-        <div className="flex bg-surface-container rounded-xl p-1 w-fit gap-1">
+        <div className="flex bg-surface-container rounded-xl p-1 w-full sm:w-fit gap-1 overflow-x-auto">
           {(["toutes", "en_attente", "validees"] as const).map((f) => (
             <button
               key={f}
@@ -224,7 +224,7 @@ export default function EntreprisesValidation() {
         </div>
       </div>
 
-      <div className="flex-1 px-10 py-6">
+      <div className="flex-1 px-4 sm:px-6 lg:px-10 py-6">
         {loading && (
           <div className="flex items-center text-on-surface-variant py-10">
             <span className="material-symbols-outlined animate-spin mr-2">progress_activity</span>
@@ -237,7 +237,8 @@ export default function EntreprisesValidation() {
 
         {!loading && !error && (
           <div className="bg-surface-container-low rounded-2xl border border-outline-variant overflow-hidden">
-            <table className="w-full">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px]">
               <thead>
                 <tr className="border-b border-outline-variant bg-surface-container">
                   <th className="text-left px-6 py-3 text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
@@ -338,6 +339,7 @@ export default function EntreprisesValidation() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </div>

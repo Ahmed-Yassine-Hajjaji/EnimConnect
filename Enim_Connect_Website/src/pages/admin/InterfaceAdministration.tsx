@@ -59,14 +59,14 @@ export default function InterfaceAdministration() {
 
   return (
     <main className="min-h-screen flex flex-col">
-      <div className="px-10 pt-8 pb-4">
-        <h1 className="font-headline font-extrabold text-3xl text-on-surface mb-1">Validation des annonces</h1>
+      <div className="px-4 sm:px-6 lg:px-10 pt-6 lg:pt-8 pb-4">
+        <h1 className="font-headline font-extrabold text-2xl lg:text-3xl text-on-surface mb-1">Validation des annonces</h1>
         <p className="text-on-surface-variant text-sm">Validez les offres de stage soumises par les entreprises</p>
       </div>
 
       {/* Stats */}
-      <div className="px-10 mb-6">
-        <div className="grid grid-cols-4 gap-4">
+      <div className="px-4 sm:px-6 lg:px-10 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4">
           {[
             { label: 'Total', value: stats.total, cls: 'bg-gradient-to-br from-primary to-secondary text-white', badge: '' },
             { label: 'En attente', value: stats.en_attente, cls: 'bg-surface-container-low border border-outline-variant', badge: 'text-orange-600 bg-orange-50' },
@@ -84,8 +84,8 @@ export default function InterfaceAdministration() {
       </div>
 
       {/* Filter tabs + Search */}
-      <div className="px-10 mb-4 flex items-center gap-4 flex-wrap">
-        <div className="flex bg-surface-container rounded-xl p-1 w-fit gap-1">
+      <div className="px-4 sm:px-6 lg:px-10 mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
+        <div className="flex bg-surface-container rounded-xl p-1 w-full sm:w-fit gap-1 overflow-x-auto">
           {(['toutes', 'en_attente', 'validee', 'rejetee'] as Filter[]).map((f) => (
             <button key={f} onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -96,7 +96,7 @@ export default function InterfaceAdministration() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 bg-surface-container-low border border-outline-variant rounded-xl px-3 py-2 w-64 focus-within:border-primary transition-colors">
+        <div className="flex items-center gap-2 bg-surface-container-low border border-outline-variant rounded-xl px-3 py-2 w-full sm:w-64 focus-within:border-primary transition-colors">
           <span className="material-symbols-outlined text-on-surface-variant text-lg">search</span>
           <input
             type="text"
@@ -114,7 +114,7 @@ export default function InterfaceAdministration() {
       </div>
 
       {/* Table */}
-      <div className="px-10 pb-10 flex-1">
+      <div className="px-4 sm:px-6 lg:px-10 pb-10 flex-1">
         <div className="bg-surface-container-low rounded-2xl border border-outline-variant overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center py-16">
@@ -127,7 +127,8 @@ export default function InterfaceAdministration() {
               <p className="text-sm text-on-surface-variant">Aucune annonce ne correspond à ce filtre.</p>
             </div>
           ) : (
-            <table className="w-full">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px]">
               <thead>
                 <tr className="border-b border-outline-variant bg-surface-container">
                   {['Offre', 'Département', 'Durée', 'Date soumission', 'Statut', 'Actions'].map((h) => (
@@ -184,6 +185,7 @@ export default function InterfaceAdministration() {
                 })}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>

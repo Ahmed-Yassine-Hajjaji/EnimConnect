@@ -170,7 +170,7 @@ export default function DecisionPage() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-3 mb-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                   <button
                     onClick={() => { setAction("valider"); setMotif(""); setMotifError(""); }}
                     disabled={state === "submitting"}
