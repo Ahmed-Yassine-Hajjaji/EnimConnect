@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../api/client";
-import { ENSMR_DEPARTEMENTS, NOMS_DEPARTEMENTS } from "../../constants/ensmr";
+import { ENSMR_DEPARTEMENTS } from "../../constants/ensmr";
 
 export default function PublierOffre() {
   const navigate = useNavigate();

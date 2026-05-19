@@ -93,7 +93,7 @@ export default function ProfilCandidat() {
   useEffect(() => {
     Promise.all([
       api.getMonProfil() as Promise<Profil>,
-      api.getMonCV().catch(() => null) as Promise<CV | null>,
+      api.getMonCV().catch(() => null) as Promise<CVProfile | null>,
     ]).then(([p, c]) => {
       setProfil(p); setCv(c);
       setNom(p.nom); setPrenom(p.prenom);
