@@ -10,8 +10,8 @@ class Settings(BaseSettings):
     # N8n webhook — reçoit la décision (validée/rejetée) pour notifier l'entreprise
     N8N_COMPANY_WEBHOOK_URL: str = ""
     HMAC_SECRET: str
-    FRONTEND_URL: str = "http://localhost:5173"
-    BACKEND_URL: str = "http://localhost:8000"   # URL publique du backend (pour les liens email)
+    FRONTEND_URL: str = "https://enimconnect.duckdns.org"
+    BACKEND_URL: str = "https://enimconnect.duckdns.org"   # URL publique du backend (pour les liens email)
     STORAGE_PATH: str = "./storage"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
