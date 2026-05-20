@@ -193,7 +193,7 @@ export const api = {
 
   // Page de décision chef (sans auth)
   getDecisionInfo: (validationId: string, token: string, chefId: string) =>
-    fetch(`${API_BASE}/decision/${validationId}?token=${encodeURIComponent(token)}&chef_id=${encodeURIComponent(chefId)}`).then(
+    fetch(`${API_BASE}/api/decision/${validationId}?token=${encodeURIComponent(token)}&chef_id=${encodeURIComponent(chefId)}`).then(
       async (res) => {
         if (!res.ok) {
           const err = await res.json().catch(() => ({ detail: "Erreur" }));
@@ -207,7 +207,7 @@ export const api = {
     validationId: string,
     payload: { token: string; chef_id: string; action: "valider" | "refuser"; motif?: string }
   ) =>
-    fetch(`${API_BASE}/decision/${validationId}`, {
+    fetch(`${API_BASE}/api/decision/${validationId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

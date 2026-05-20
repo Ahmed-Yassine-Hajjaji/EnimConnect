@@ -46,6 +46,7 @@ app.include_router(annonces.router)
 app.include_router(entreprises.router)
 app.include_router(club.router)
 app.include_router(validation.router)
+app.include_router(validation.router, prefix="/api")  # JSON endpoints: /api/decision/{id}
 app.include_router(notifications.router)
 
 
